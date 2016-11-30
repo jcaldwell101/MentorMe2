@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -68,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ImageView mPreviewPic;
     private String mPicString;
+
+    private String mPicPath;
 
     private JSONObject json = new JSONObject();
 
@@ -118,13 +122,17 @@ public class RegisterActivity extends AppCompatActivity {
                     json.put("mentor",mMentor.isChecked());
                     json.put("picture", mPicString);
 
+                    Log.v(TAG,Integer.toString(mPicString.length()));
+
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
 
-                postRequest(json.toString());
+               postRequest(json.toString());
             }
         });
 
@@ -135,9 +143,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                 File picture = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-                String picturePath = picture.getPath();
+                mPicPath = picture.getPath();
 
-                Uri data = Uri.parse(picturePath);
+                Log.v(TAG, mPicPath);
+                Uri data = Uri.parse(mPicPath);
+
+                Log.v(TAG, data.toString());
 
                 photoPicker.setDataAndType(data, "image/*");
 
@@ -149,38 +160,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
-    /*private void getRequest(){
 
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com")
-                .build();
-
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "Fail", e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    if (response.isSuccessful()){
-                        Log.v(TAG, response.body().string());
-
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG,"Exception Caught",e);
-                }
-            }
-        });
-
-    }*/
 
     private void acceptLogin(String username) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Main2Activity.class);
         intent.putExtra("username",username);
         startActivity(intent);
     }
@@ -247,6 +230,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (requestCode == 20){
                 Uri image = data.getData();
 
+               mPicPath = image.toString().substring(9);
+                Log.v(TAG, mPicPath);
+
                 InputStream inputStream;
 
                 try {
@@ -266,6 +252,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
     public String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
@@ -273,4 +260,7 @@ public class RegisterActivity extends AppCompatActivity {
         String result= Base64.encodeToString(arr, Base64.DEFAULT);
         return result;
     }
+
+
+
 }

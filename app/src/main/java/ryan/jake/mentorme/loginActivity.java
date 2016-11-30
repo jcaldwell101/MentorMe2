@@ -99,9 +99,11 @@ public class loginActivity extends AppCompatActivity {
                 try {
                     if (response.isSuccessful()){
                         Log.v(TAG, response.body().string());
+                        acceptLogin(mName.getText().toString());
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+                                Log.v(TAG,mName.getText().toString() );
                                 acceptLogin(mName.getText().toString());
                             }
                         });
