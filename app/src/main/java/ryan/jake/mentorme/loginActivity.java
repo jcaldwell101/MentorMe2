@@ -2,6 +2,7 @@ package ryan.jake.mentorme;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,11 +44,18 @@ public class loginActivity extends AppCompatActivity {
         mCreate = (Button)findViewById(R.id.cAccount);
 
         mError = (TextView)findViewById(R.id.error2) ;
+        mHandler = new Handler(Looper.getMainLooper());
 
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 accountCreate();
+            }
+        });
+        mLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getRequest(mName.getText().toString(),mPassword.getText().toString());
             }
         });
 
@@ -56,6 +64,12 @@ public class loginActivity extends AppCompatActivity {
 
     private void accountCreate() {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void acceptLogin(String username) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("username",username);
         startActivity(intent);
     }
 
@@ -79,7 +93,12 @@ public class loginActivity extends AppCompatActivity {
                 try {
                     if (response.isSuccessful()){
                         Log.v(TAG, response.body().string());
-                        //enter
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                acceptLogin(mName.getText().toString());
+                            }
+                        });
 
                     }else{
                         mHandler.post(new Runnable() {

@@ -1,5 +1,6 @@
 package ryan.jake.mentorme;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.DialogFragment;
@@ -137,6 +138,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+    private void acceptLogin(String username) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("username",username);
+        startActivity(intent);
+    }
 
     private void postRequest(String json){
 
@@ -167,7 +173,12 @@ public class RegisterActivity extends AppCompatActivity {
                     if (response.isSuccessful()){
 
                         Log.v(TAG, response.body().string());
-
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                               acceptLogin(mUsername.getText().toString());
+                            }
+                        });
 
                     }
                     else{
