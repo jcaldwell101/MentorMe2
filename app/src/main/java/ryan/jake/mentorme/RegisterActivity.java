@@ -1,23 +1,33 @@
 package ryan.jake.mentorme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -54,6 +64,11 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton mMentor;
 
     private Button mRegister;
+    private Button mPicture;
+
+    private ImageView mPreviewPic;
+    private String mPicString;
+
     private JSONObject json = new JSONObject();
 
 
@@ -76,7 +91,11 @@ public class RegisterActivity extends AppCompatActivity {
         mMentor= (RadioButton)findViewById(R.id.mentor);
 
         mRegister = (Button)findViewById(R.id.registerButton);
+        mPicture = (Button)findViewById(R.id.pictureButton);
+
         mError = (TextView)findViewById(R.id.error);
+
+        mPreviewPic = (ImageView)findViewById(R.id.previewPic);
 
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -84,7 +103,6 @@ public class RegisterActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(TAG, "Find me");
 
                 try {
 
@@ -98,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                     json.put("housing",mHousing.isChecked());
                     json.put("mentee",mMentee.isChecked());
                     json.put("mentor",mMentor.isChecked());
+                    json.put("picture", mPicString);
 
 
                 } catch (JSONException e) {
@@ -108,8 +127,29 @@ public class RegisterActivity extends AppCompatActivity {
                 postRequest(json.toString());
             }
         });
+
+        mPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPicker = new Intent(Intent.ACTION_PICK);
+
+                File picture = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+                String picturePath = picture.getPath();
+
+                Uri data = Uri.parse(picturePath);
+
+                photoPicker.setDataAndType(data, "image/*");
+
+                startActivityForResult(photoPicker,20);
+
+
+            }
+        });
+
+
     }
-    private void getRequest(){
+    /*private void getRequest(){
 
         OkHttpClient client = new OkHttpClient();
 
@@ -137,7 +177,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
+
     private void acceptLogin(String username) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("username",username);
@@ -200,5 +241,36 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            if (requestCode == 20){
+                Uri image = data.getData();
 
+                InputStream inputStream;
+
+                try {
+                    inputStream = getContentResolver().openInputStream(image);
+
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                    mPreviewPic.setImageBitmap(bitmap);
+                    mPicString=BitMapToString(bitmap);
+
+                } catch (FileNotFoundException e) {
+
+                    e.printStackTrace();
+
+                }
+            }
+        }
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] arr=baos.toByteArray();
+        String result= Base64.encodeToString(arr, Base64.DEFAULT);
+        return result;
+    }
 }

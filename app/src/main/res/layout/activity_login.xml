@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
@@ -19,15 +20,6 @@
         android:layout_marginTop="12dp"
         android:id="@+id/cAccount" />
 
-    <Button
-        android:text="Login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:id="@+id/Login"
-        android:layout_below="@+id/password"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,8 +27,8 @@
         android:ems="10"
         android:id="@+id/usernameLogin"
         android:hint="Username"
-        android:layout_marginBottom="48dp"
-        android:layout_above="@+id/password"
+        android:layout_marginBottom="9dp"
+        android:layout_alignBottom="@+id/error2"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -49,14 +41,33 @@
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:text="Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:id="@+id/Login"
+        android:layout_below="@+id/password"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/mentormeicon"
+        android:id="@+id/imageView5"
+        android:layout_marginBottom="36dp"
+        android:layout_above="@+id/usernameLogin"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:text="*username and password do not match"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="6dp"
         android:id="@+id/error2"
         android:visibility="invisible"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_above="@+id/password"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
