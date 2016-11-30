@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ryan.jake.mentorme.RegisterActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/nameText"
+        android:hint="Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordText"
+        android:hint="Password"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/usernameText"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Matching Preferences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="16sp"
+        android:layout_marginTop="75dp"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/cityText"
+        android:layout_alignParentStart="true"
+        android:layout_weight="1" />
+
+    <CheckBox
+        android:text="Housing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkBoxDietary"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/checkBoxHousing" />
+
+    <CheckBox
+        android:text="Religion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkBoxHousing"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/checkBoxReligion" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/usernameText"
+        android:hint="Username"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/nameText"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:text="Sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxSports"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/checkBoxDietary"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:text="Dietary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/checkBoxDietary"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/cityText"
+        android:hint="City"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/passwordText"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/cityText"
+        android:layout_alignParentStart="true">
+        <RadioButton
+            android:text="Mentee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_alignTop="@+id/mentor"
+            android:layout_toEndOf="@+id/checkBoxHousing"
+            android:id="@+id/mentee" />
+
+        <RadioButton
+            android:text="Mentor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/mentor"
+            android:layout_below="@+id/cityText"
+            android:layout_toStartOf="@+id/checkBoxHousing" />
+
+    </RadioGroup>
+
+    <TextView
+        android:text="* Username already exists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/usernameText"
+        android:layout_alignParentStart="true"
+        android:id="@+id/error"
+        android:layout_toStartOf="@+id/checkBoxReligion"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

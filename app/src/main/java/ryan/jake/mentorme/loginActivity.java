@@ -1,0 +1,100 @@
+package ryan.jake.mentorme;
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class loginActivity extends AppCompatActivity {
+
+    public static final String TAG = loginActivity.class.getSimpleName();
+    private EditText mName;
+    private EditText mPassword;
+
+    private Button mLogin;
+    private Button mCreate;
+    private TextView mError;
+
+    Handler mHandler;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        mName = (EditText)findViewById(R.id.usernameLogin);
+        mPassword = (EditText)findViewById(R.id.password);
+
+        mLogin = (Button)findViewById(R.id.Login);
+        mCreate = (Button)findViewById(R.id.cAccount);
+
+        mError = (TextView)findViewById(R.id.error2) ;
+
+        mCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                accountCreate();
+            }
+        });
+
+
+    }
+
+    private void accountCreate() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void getRequest(String name, String password){
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/login?name="+name+"&password="+password)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Fail", e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()){
+                        Log.v(TAG, response.body().string());
+                        //enter
+
+                    }else{
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mError.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG,"Exception Caught",e);
+                }
+            }
+        });
+
+    }
+}
