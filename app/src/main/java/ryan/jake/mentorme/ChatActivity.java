@@ -23,6 +23,10 @@ package ryan.jake.mentorme;
         import com.google.android.gms.appindexing.Thing;
         import com.google.android.gms.common.api.GoogleApiClient;
 
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
         import java.io.IOException;
 
         import okhttp3.Call;
@@ -61,6 +65,9 @@ public class ChatActivity extends Activity {
         if (extras!=null) {
             requestid = extras.getString("requestid");
         }
+
+        //populate chat
+        getChat();
 
         /*//Toast start
         Context context = getApplicationContext();
@@ -123,9 +130,10 @@ public class ChatActivity extends Activity {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/login?name="+this.requestid)
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/getChat?request="+this.requestid)
                 .build();
 
+        
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -138,22 +146,21 @@ public class ChatActivity extends Activity {
                 try {
                     if (response.isSuccessful()){
                         Log.v(TAG, response.body().string());
+                        String jsonData = response.body().string().toString();
+                        try {
+                            JSONObject jsonObj = new JSONObject(jsonData);
+                            JSONArray jsonArr = jsonObj.getJSONArray("messages");
 
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Log.v(TAG,mName.getText().toString() );
-                                //acceptLogin(mName.getText().toString());
+                            for(int i= 0;i<jsonArr.length();i++) {
+                                JSONObject object = jsonArr.getJSONObject(i);
                             }
-                        });
+                        } catch (JSONException e) {
+                            Log.v(TAG, e.toString());
+                        }
+
 
                     }else{
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                //display error if wanted (toast maybe)
-                            }
-                        });
+
 
                     }
                 } catch (IOException e) {
@@ -162,7 +169,10 @@ public class ChatActivity extends Activity {
             }
         });
 
+
     }
+
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
