@@ -41,8 +41,10 @@ package ryan.jake.mentorme;
 public class ChatActivity extends Activity {
     private static final String TAG = "ChatActivity";
 
-    public String requestid = "";
-    public String userid = "";
+    public String requestid    = "";
+    public String userid       = "";
+    public String receipientid = "";
+    public String usertype     = "";
 
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
@@ -69,20 +71,23 @@ public class ChatActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras!=null) {
-            requestid = extras.getString("requestid");
-            userid = extras.getString("userid");
+            //values that must be passed to activity from intent from request screen
+            requestid    = extras.getString("requestid");
+            userid       = extras.getString("userid");
+            receipientid = extras.getString("recipientid");
+            usertype     = extras.getString("usertype");
         }
 
         //populate chat
 
 
-        //Toast start
+        /*//Toast start
         Context context = getApplicationContext();
         CharSequence text = "requestid: " + requestid + "userid: " + userid;
         int dur = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context,text,dur);
         toast.show();
-        //Toast stop
+        //Toast stop*/
         mHandler = new Handler(Looper.getMainLooper());
         listView = (ListView) findViewById(R.id.msgview);
 
@@ -124,12 +129,15 @@ public class ChatActivity extends Activity {
     }
 
     private boolean sendChatMessage() {
-        if(!chatText.getText().toString().matches("")) {
+        /*if(!chatText.getText().toString().matches("")) {
             chatArrayAdapter.add(new ChatMessage(alignRight, chatText.getText().toString()));
             chatText.setText("");
             return true;
         }
-        //side = !side;
+        //side = !side;*/
+
+
+
         return false;
     }
 
