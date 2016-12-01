@@ -1,21 +1,35 @@
 package ryan.jake.mentorme;
 
         import android.app.Activity;
+        import android.content.Context;
         import android.database.DataSetObserver;
         import android.net.Uri;
         import android.os.Bundle;
+        import android.os.Handler;
+        import android.os.Looper;
         import android.support.design.widget.FloatingActionButton;
+        import android.util.Log;
         import android.view.KeyEvent;
         import android.view.View;
         import android.widget.AbsListView;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.ListView;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.google.android.gms.appindexing.Action;
         import com.google.android.gms.appindexing.AppIndex;
         import com.google.android.gms.appindexing.Thing;
         import com.google.android.gms.common.api.GoogleApiClient;
+
+        import java.io.IOException;
+
+        import okhttp3.Call;
+        import okhttp3.Callback;
+        import okhttp3.OkHttpClient;
+        import okhttp3.Request;
+        import okhttp3.Response;
 
 
 public class ChatActivity extends Activity {
@@ -28,6 +42,7 @@ public class ChatActivity extends Activity {
     private EditText chatText;
     private FloatingActionButton buttonSend;
     private boolean alignRight = true;
+    Handler mHandler;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -42,6 +57,19 @@ public class ChatActivity extends Activity {
 
         FloatingActionButton buttonSend = (FloatingActionButton) findViewById(R.id.fab);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null) {
+            requestid = extras.getString("requestid");
+        }
+
+        /*//Toast start
+        Context context = getApplicationContext();
+        CharSequence text = "requestid: " + requestid;
+        int dur = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context,text,dur);
+        toast.show();
+        //Toast stop*/
+        mHandler = new Handler(Looper.getMainLooper());
         listView = (ListView) findViewById(R.id.msgview);
 
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.right);
@@ -87,6 +115,53 @@ public class ChatActivity extends Activity {
         }
         //side = !side;
         return false;
+    }
+
+
+    private void getChat(){
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/login?name="+this.requestid)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Fail", e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()){
+                        Log.v(TAG, response.body().string());
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Log.v(TAG,mName.getText().toString() );
+                                //acceptLogin(mName.getText().toString());
+                            }
+                        });
+
+                    }else{
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //display error if wanted (toast maybe)
+                            }
+                        });
+
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG,"Exception Caught",e);
+                }
+            }
+        });
+
     }
 
     /**

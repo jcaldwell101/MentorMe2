@@ -78,6 +78,8 @@ public class loginActivity extends AppCompatActivity {
 
     private void goToChat() {
         Intent intent = new Intent(this, ChatActivity.class);
+        //pass requestId since it's a MUST!
+        intent.putExtra("requestid","1");
         startActivity(intent);
     }
     private void accountCreate() {
