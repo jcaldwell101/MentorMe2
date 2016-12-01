@@ -24,11 +24,13 @@ import okhttp3.Response;
 public class loginActivity extends AppCompatActivity {
 
     public static final String TAG = loginActivity.class.getSimpleName();
+
     private EditText mName;
     private EditText mPassword;
 
     private Button mLogin;
     private Button mCreate;
+    private Button mChat;
     private TextView mError;
 
     Handler mHandler;
@@ -47,8 +49,9 @@ public class loginActivity extends AppCompatActivity {
         mName = (EditText)findViewById(R.id.usernameLogin);
         mPassword = (EditText)findViewById(R.id.password);
 
-        mLogin = (Button)findViewById(R.id.Login);
+        mLogin  = (Button)findViewById(R.id.Login);
         mCreate = (Button)findViewById(R.id.cAccount);
+        mChat   = (Button)findViewById(R.id.Chat);
 
         mError = (TextView)findViewById(R.id.error2) ;
         mHandler = new Handler(Looper.getMainLooper());
@@ -68,10 +71,21 @@ public class loginActivity extends AppCompatActivity {
                 getRequest(mName.getText().toString(),mPassword.getText().toString());
             }
         });
-
+        mChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToChat();
+            }
+        });
 
     }
 
+    private void goToChat() {
+        Intent intent = new Intent(this, ChatActivity.class);
+        //pass requestId since it's a MUST!
+        intent.putExtra("requestid","1");
+        startActivity(intent);
+    }
     private void accountCreate() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
