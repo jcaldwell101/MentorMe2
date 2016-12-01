@@ -24,6 +24,7 @@ import okhttp3.Response;
 public class loginActivity extends AppCompatActivity {
 
     public static final String TAG = loginActivity.class.getSimpleName();
+
     private EditText mName;
     private EditText mPassword;
 

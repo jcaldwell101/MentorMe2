@@ -1,6 +1,5 @@
 package ryan.jake.mentorme;
 
-
         import android.app.Activity;
         import android.database.DataSetObserver;
         import android.net.Uri;
@@ -21,6 +20,8 @@ package ryan.jake.mentorme;
 
 public class ChatActivity extends Activity {
     private static final String TAG = "ChatActivity";
+
+    public String requestid = "";
 
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
