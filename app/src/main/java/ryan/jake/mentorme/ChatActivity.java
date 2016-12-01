@@ -133,7 +133,7 @@ public class ChatActivity extends Activity {
                 .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/getChat?request="+this.requestid)
                 .build();
 
-        
+
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -154,6 +154,7 @@ public class ChatActivity extends Activity {
                             for(int i= 0;i<jsonArr.length();i++) {
                                 JSONObject object = jsonArr.getJSONObject(i);
                             }
+                            Log.v("JSON DATA: ", jsonArr.toString());
                         } catch (JSONException e) {
                             Log.v(TAG, e.toString());
                         }
