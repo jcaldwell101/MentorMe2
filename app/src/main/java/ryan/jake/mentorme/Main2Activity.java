@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -30,7 +31,11 @@ public class Main2Activity extends AppCompatActivity {
     public static final String TAG = Main2Activity.class.getSimpleName();
     Bitmap mbitmap;
 
+
+
     private ImageView mProfilePic;
+    private TextView mProfileName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +44,70 @@ public class Main2Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mUser  = intent.getStringExtra("username");
-        Log.v(TAG, mUser);
+
+
+
 
         mHandler = new Handler(Looper.getMainLooper());
 
         mProfilePic = (ImageView)findViewById(R.id.profilePicture);
+        mProfileName = (TextView)findViewById(R.id.profileNameText);
+        mProfileName.setText(mUser);
+
+
 
         getImage();
 
     }
+
+
+    private void getProfile(){
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/profile?name="+mUser)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Fail", e);
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                try {
+                    if (response.isSuccessful()){
+                        //Log.v(TAG, Integer.toString( response.body().string().length()));
+
+                        String respon = response.body().string();
+
+                        mbitmap = StringToBitMap(respon);
+                        //mProfilePic.setImageBitmap(mbitmap);
+
+                        Log.v(TAG,"check1");
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.v(TAG,"check2");
+                                mProfilePic.setImageBitmap(mbitmap);
+                            }
+                        });
+
+                    }else{
+
+
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG,"Exception Caught",e);
+                }
+            }
+        });
+    }
+
+
 
     private void getImage(){
 

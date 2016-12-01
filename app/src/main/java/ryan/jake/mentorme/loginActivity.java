@@ -76,6 +76,7 @@ public class loginActivity extends AppCompatActivity {
     private void acceptLogin(String username) {
         Intent intent = new Intent(this, Main2Activity.class);
         intent.putExtra("username",username);
+
         startActivity(intent);
     }
 
@@ -99,7 +100,7 @@ public class loginActivity extends AppCompatActivity {
                 try {
                     if (response.isSuccessful()){
                         Log.v(TAG, response.body().string());
-                        acceptLogin(mName.getText().toString());
+
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
