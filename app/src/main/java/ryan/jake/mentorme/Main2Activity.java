@@ -1,5 +1,6 @@
 package ryan.jake.mentorme;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,7 +25,7 @@ import okhttp3.Response;
 
 import static android.R.attr.bitmap;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends ListActivity {
 
     String mUser;
     private Handler mHandler;

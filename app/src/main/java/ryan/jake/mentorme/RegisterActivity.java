@@ -65,6 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton mMentee;
     private RadioButton mMentor;
 
+    private RadioButton mMale;
+
+
     private Button mRegister;
     private Button mPicture;
 
@@ -72,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String mPicString;
 
     private String mPicPath;
+    private int mGender;
+
 
     private JSONObject json = new JSONObject();
 
@@ -93,8 +98,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         mMentee= (RadioButton)findViewById(R.id.mentee);
         mMentor= (RadioButton)findViewById(R.id.mentor);
+        mMale = (RadioButton)findViewById(R.id.maleradioButton);
 
-        mRegister = (Button)findViewById(R.id.registerButton);
+
+        mRegister = (Button)findViewById(R.id.nextButton);
         mPicture = (Button)findViewById(R.id.pictureButton);
 
         mError = (TextView)findViewById(R.id.error);
@@ -107,85 +114,45 @@ public class RegisterActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                try {
-
-                    json.put("name",mName.getText().toString());
-                    json.put("username",mUsername.getText().toString());
-                    json.put("password",mPassword.getText().toString());
-                    json.put("city",mCity.getText().toString());
-                    json.put("dietary",mDietary.isChecked());
-                    json.put("religion",mReligion.isChecked());
-                    json.put("sports",mSports.isChecked());
-                    json.put("housing",mHousing.isChecked());
-                    json.put("mentee",mMentee.isChecked());
-                    json.put("mentor",mMentor.isChecked());
-                    json.put("picture", mPicString);
-
-                    Log.v(TAG,Integer.toString(mPicString.length()));
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-               postRequest(json.toString());
+                getRequest();
             }
         });
 
-        mPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent photoPicker = new Intent(Intent.ACTION_PICK);
-
-                File picture = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-                mPicPath = picture.getPath();
-
-                Log.v(TAG, mPicPath);
-                Uri data = Uri.parse(mPicPath);
-
-                Log.v(TAG, data.toString());
-
-                photoPicker.setDataAndType(data, "image/*");
-
-                startActivityForResult(photoPicker,20);
-
-
-            }
-        });
 
 
     }
 
+    private void next(String name, String username, String password, String city, Boolean mentor, Boolean mentee) {
+        Intent intent = new Intent(this, Register2Activity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        intent.putExtra("city", city);
+        intent.putExtra("mentor", mentor);
+        intent.putExtra("mentee", mentee);
 
-    private void acceptLogin(String username) {
-        Intent intent = new Intent(this, Main2Activity.class);
-        intent.putExtra("username",username);
+        if(mMale.isChecked()){
+            intent.putExtra("gender",1);
+        }
+        else{
+            intent.putExtra("gender",0);
+        }
+
         startActivity(intent);
+
     }
 
-    private void postRequest(String json){
+
+    private void getRequest() {
 
         OkHttpClient client = new OkHttpClient();
 
-        RequestBody body = RequestBody.create(JSON, json);
-
         Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/register")
-                .post(body)
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/checkusername?name=" + mUsername.getText().toString())
                 .build();
 
         Call call = client.newCall(request);
-
-
-
         call.enqueue(new Callback() {
-
-
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "Fail", e);
@@ -194,19 +161,18 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    if (response.isSuccessful()){
-
+                    if (response.isSuccessful()) {
                         Log.v(TAG, response.body().string());
+
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                               acceptLogin(mUsername.getText().toString());
+                                Log.v(TAG, mName.getText().toString());
+                                next(mName.getText().toString(), mUsername.getText().toString(), mPassword.getText().toString(), mCity.getText().toString(), mMentor.isChecked(), mMentee.isChecked());
                             }
                         });
 
-                    }
-                    else{
-                        Log.e(TAG,"bad");
+                    } else {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -214,53 +180,13 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         });
 
-
                     }
                 } catch (IOException e) {
-                    Log.e(TAG,"Exception Caught",e);
+                    Log.e(TAG, "Exception Caught", e);
                 }
             }
         });
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK){
-            if (requestCode == 20){
-                Uri image = data.getData();
-
-               mPicPath = image.toString().substring(9);
-                Log.v(TAG, mPicPath);
-
-                InputStream inputStream;
-
-                try {
-                    inputStream = getContentResolver().openInputStream(image);
-
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-                    mPreviewPic.setImageBitmap(bitmap);
-                    mPicString=BitMapToString(bitmap);
-
-                } catch (FileNotFoundException e) {
-
-                    e.printStackTrace();
-
-                }
-            }
-        }
-    }
-
-
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] arr=baos.toByteArray();
-        String result= Base64.encodeToString(arr, Base64.DEFAULT);
-        return result;
-    }
-
-
 
 }

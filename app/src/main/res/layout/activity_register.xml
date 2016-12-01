@@ -22,27 +22,11 @@
         android:layout_below="@+id/usernameText"
         android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:text="Housing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/checkBoxDietary"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/checkBoxHousing" />
-
-    <CheckBox
-        android:text="Religion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/checkBoxHousing"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/checkBoxReligion" />
-
     <Button
-        android:text="Register"
+        android:text="Next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/registerButton"
+        android:id="@+id/nextButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
@@ -79,15 +63,6 @@
         android:textColor="@android:color/holo_red_dark"
         android:visibility="invisible"/>
 
-    <CheckBox
-        android:text="Sports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBoxSports"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/checkBoxDietary"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,16 +77,16 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/cityText"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"
-        android:id="@+id/radioGroup">
+        android:id="@+id/radioGroup"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/textView8"
+        android:layout_alignParentStart="true">
 
         <RadioButton
             android:text="Mentee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+
             android:layout_alignTop="@+id/mentor"
             android:layout_toEndOf="@+id/checkBoxHousing"
             android:id="@+id/mentee" />
@@ -127,54 +102,51 @@
 
     </RadioGroup>
 
-    <CheckBox
-        android:text="Dietary"
+    <TextView
+        android:text="Gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:id="@+id/checkBoxDietary"
-        android:layout_below="@+id/textView"
+        android:id="@+id/textView7"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/cityText"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="Matching Preferences"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textSize="16sp"
-        android:layout_marginTop="21dp"
-        android:textColor="@android:color/black"
-        android:layout_weight="1"
-        android:layout_below="@+id/pictureButton"
-        android:layout_alignParentStart="true" />
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup3"
+        android:layout_marginTop="35dp"
+        android:layout_alignTop="@+id/textView7"
+        android:layout_alignParentStart="true">
+
+
+        <RadioButton
+            android:text="Male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maleradioButton"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/femaleradioButton2"
+            android:layout_weight="1" />
+    </RadioGroup>
 
     <TextView
-        android:text="Profile Picture"
+        android:text="User Type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:layout_below="@+id/radioGroup"
+        android:id="@+id/textView8"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_dark"
+        android:layout_below="@+id/textView7"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="7dp" />
-
-    <Button
-        android:text="Choose Picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:id="@+id/pictureButton"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        app:srcCompat="@drawable/ic_menu_camera"
-        android:id="@+id/previewPic"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="19dp" />
+        android:layout_marginTop="59dp" />
 
 </RelativeLayout>

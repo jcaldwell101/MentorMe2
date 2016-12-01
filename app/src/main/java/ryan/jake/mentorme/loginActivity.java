@@ -43,6 +43,7 @@ public class loginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
+
         mName = (EditText)findViewById(R.id.usernameLogin);
         mPassword = (EditText)findViewById(R.id.password);
 
@@ -58,6 +59,9 @@ public class loginActivity extends AppCompatActivity {
                 accountCreate();
             }
         });
+
+
+
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +80,6 @@ public class loginActivity extends AppCompatActivity {
     private void acceptLogin(String username) {
         Intent intent = new Intent(this, Main2Activity.class);
         intent.putExtra("username",username);
-
         startActivity(intent);
     }
 
