@@ -27,7 +27,7 @@ public class ChatActivity extends Activity {
     private ListView listView;
     private EditText chatText;
     private FloatingActionButton buttonSend;
-    private boolean side = false;
+    private boolean alignRight = true;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -80,10 +80,13 @@ public class ChatActivity extends Activity {
     }
 
     private boolean sendChatMessage() {
-        chatArrayAdapter.add(new ChatMessage(side, chatText.getText().toString()));
-        chatText.setText("");
-        side = !side;
-        return true;
+        if(!chatText.getText().toString().matches("")) {
+            chatArrayAdapter.add(new ChatMessage(alignRight, chatText.getText().toString()));
+            chatText.setText("");
+            return true;
+        }
+        //side = !side;
+        return false;
     }
 
     /**
