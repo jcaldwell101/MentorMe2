@@ -133,7 +133,7 @@ public class Register2Activity extends AppCompatActivity {
                     json.put("intro",mIntro.getProgress());
                     json.put("ration",mRation.getProgress());
 
-                    Log.v(TAG,Integer.toString(mPicString.length()));
+                    try{Log.v(TAG,Integer.toString(mPicString.length()));} catch (Exception e) {}
 
 
 
