@@ -84,6 +84,7 @@ public class loginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ChatActivity.class);
         //pass requestId since it's a MUST!
         intent.putExtra("requestid","1");
+        intent.putExtra("userid","2");
         startActivity(intent);
     }
     private void accountCreate() {
