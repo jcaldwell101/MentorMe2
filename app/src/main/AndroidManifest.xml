@@ -45,7 +45,6 @@
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Register2Activity" />
-        <activity android:name=".ResultsActivity" />
         <activity
             android:name=".AccountEditActivity"
             android:label="@string/title_activity_account_edit"
