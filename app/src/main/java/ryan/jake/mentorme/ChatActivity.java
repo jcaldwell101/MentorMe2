@@ -30,6 +30,8 @@ package ryan.jake.mentorme;
 
         import java.io.IOException;
         import java.util.ArrayList;
+        import java.util.Timer;
+        import java.util.TimerTask;
 
         import okhttp3.Call;
         import okhttp3.Callback;
@@ -67,6 +69,8 @@ public class ChatActivity extends Activity {
      */
     private GoogleApiClient client;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +84,7 @@ public class ChatActivity extends Activity {
             //values that must be passed to activity from intent from request screen
             requestid    = extras.getString("requestid");
             userid       = extras.getString("userid");
-            recipientid = extras.getString("recipientid");
+            recipientid  = extras.getString("recipientid");
             usertype     = extras.getString("usertype");
         }
 
@@ -114,15 +118,22 @@ public class ChatActivity extends Activity {
             public void onClick(View arg0) {
                 try {
                     jsonPostReq.put("requestid",requestid);
-                    jsonPostReq.put("userid",userid);
-                    jsonPostReq.put("recipientid",recipientid);
-                    jsonPostReq.put("usertype",usertype);
-                    jsonPostReq.put("message", mMessage);
+                    if(Integer.parseInt(usertype)==1) {
+                        jsonPostReq.put("mentorid", userid);
+                        jsonPostReq.put("menteeid",recipientid);
+                    }
+                    else{
+                            jsonPostReq.put("menteeid", userid);
+                            jsonPostReq.put("mentorid",recipientid);
+                        }
+                    //jsonPostReq.put("usertype",usertype);
+                    jsonPostReq.put("message", chatText.getText().toString());
+                    jsonPostReq.put("senderid", userid);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                sendChatMessage();
+                postRequest(jsonPostReq.toString());
+                //sendChatMessage();
             }
         });
 
@@ -141,7 +152,10 @@ public class ChatActivity extends Activity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        getChat();
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {getChat();}
+        }, 0, 2000);
     }
 
     private boolean sendChatMessage() {
@@ -185,16 +199,17 @@ public class ChatActivity extends Activity {
                         String jsonData = response.body().string();
                         response.close();
                         try {
-                            //clear msgs
-                            if(chatArrayAdapter.getCount()>1) {
-                                chatArrayAdapter.clear();
-                                listView.deferNotifyDataSetChanged();
-                            }
+
                             JSONObject jsonObj = new JSONObject(jsonData);
                             jsonArr = jsonObj.getJSONArray("messages");
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run()  {
+                                            //clear msgs
+                                            if(chatArrayAdapter.getCount()>1) {
+                                                chatArrayAdapter.clear();
+                                                listView.deferNotifyDataSetChanged();
+                                            }
                                             for(int i=0;i<jsonArr.length();i++) {
                                                 try {
                                                     mainJSONObject = jsonArr.getJSONObject(i);
@@ -209,7 +224,6 @@ public class ChatActivity extends Activity {
                                         }
                                     });
 
-
                             //}
                             //Log.v("JSON DATA: ", jsonArr.toString());
                         } catch (JSONException e) {
@@ -221,20 +235,15 @@ public class ChatActivity extends Activity {
                 }
             }
         });
-
-
     }
 
     private void postRequest(String json){
-
-
-
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = RequestBody.create(JSON, json);
 
         Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/register")
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/addMessage")
                 .post(body)
                 .build();
 
@@ -257,7 +266,7 @@ public class ChatActivity extends Activity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                getChat();
+                                sendMsgCallback(alignRight,chatText.getText().toString());
                             }
                         });
 
