@@ -114,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getRequest();
             }
         });
@@ -121,6 +122,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+
+    private boolean validName(String name) {
+        return name.length() > 1 && name.length() < 25;
+    }
+
+
 
     private void next(String name, String username, String password, String city, Boolean mentor, Boolean mentee) {
         Intent intent = new Intent(this, Register2Activity.class);

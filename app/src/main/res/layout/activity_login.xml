@@ -50,14 +50,6 @@
         android:layout_below="@+id/password"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="chat test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cAccount"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/Chat" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
