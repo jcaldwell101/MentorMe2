@@ -49,7 +49,7 @@ public class Main2Activity extends AppCompatActivity {
         mUser  = intent.getStringExtra("username");
         mSearch = (Button)findViewById(R.id.searchbutton);
 
-        if (mUser.equalsIgnoreCase("Mentee2")){
+        if (mUser.equalsIgnoreCase("Mentee")){
             mSearch.setText("Search");
 
         }

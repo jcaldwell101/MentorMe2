@@ -157,18 +157,18 @@ public class search_results extends AppCompatActivity {
         if(isMentee){
             Intent intent = new Intent(this, ChatActivity.class);
             //pass requestId since it's a MUST!
-            intent.putExtra("requestid","17");
-            intent.putExtra("userid","Mentee2");
-            intent.putExtra("recipientid", "jacey");
+            intent.putExtra("requestid","20");
+            intent.putExtra("userid","Mentee");
+            intent.putExtra("recipientid", "Mentor");
             intent.putExtra("usertype", "2");
             startActivity(intent);
         } else
         {
             Intent intent = new Intent(this, ChatActivity.class);
             //pass requestId since it's a MUST!
-            intent.putExtra("requestid","17");
-            intent.putExtra("userid","jacey");
-            intent.putExtra("recipientid", "Mentee2");
+            intent.putExtra("requestid","20");
+            intent.putExtra("userid","Mentor");
+            intent.putExtra("recipientid", "Mentee");
             intent.putExtra("usertype", "1");
             startActivity(intent);
         }
@@ -216,8 +216,6 @@ public class search_results extends AppCompatActivity {
 
                                 for (int i = 0; i < jsonArr.length(); i++) {
                                     try {
-
-
                                         listContents.add(jsonArr.getJSONObject(i).get("UserId").toString());
 
                                     } catch (JSONException e) {
