@@ -206,6 +206,7 @@ public class Register2Activity extends AppCompatActivity {
                     if (response.isSuccessful()){
 
                         Log.v(TAG, response.body().string());
+                        response.close();
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {

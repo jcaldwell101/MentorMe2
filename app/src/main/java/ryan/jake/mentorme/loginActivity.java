@@ -30,7 +30,7 @@ public class loginActivity extends AppCompatActivity {
 
     private Button mLogin;
     private Button mCreate;
-    private Button mChat;
+    private Button mResult;
     private TextView mError;
 
     Handler mHandler;
@@ -51,7 +51,7 @@ public class loginActivity extends AppCompatActivity {
 
         mLogin  = (Button)findViewById(R.id.Login);
         mCreate = (Button)findViewById(R.id.cAccount);
-       // mChat   = (Button)findViewById(R.id.Chat);
+        mResult   = (Button)findViewById(R.id.result);
 
         mError = (TextView)findViewById(R.id.error2) ;
         mHandler = new Handler(Looper.getMainLooper());
@@ -71,17 +71,17 @@ public class loginActivity extends AppCompatActivity {
                 getRequest(mName.getText().toString(),mPassword.getText().toString());
             }
         });
-       /* mChat.setOnClickListener(new View.OnClickListener() {
+        mResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToChat();
             }
-        });*/
+        });
 
     }
 
     private void goToChat() {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ResultsActivity.class);
         //pass requestId since it's a MUST!
         intent.putExtra("requestid","1");
         intent.putExtra("userid","2");
@@ -115,9 +115,9 @@ public class loginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try {
+
                     if (response.isSuccessful()){
-                        Log.v(TAG, response.body().string());
+                        response.close();
 
                         mHandler.post(new Runnable() {
                             @Override
@@ -136,9 +136,7 @@ public class loginActivity extends AppCompatActivity {
                         });
 
                     }
-                } catch (IOException e) {
-                    Log.e(TAG,"Exception Caught",e);
-                }
+
             }
         });
 

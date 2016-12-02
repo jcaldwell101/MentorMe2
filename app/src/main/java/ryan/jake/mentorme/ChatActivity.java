@@ -167,6 +167,7 @@ public class ChatActivity extends Activity {
                     if (response.isSuccessful()){
                         //Log.v(TAG, response.body().string());
                         String jsonData = response.body().string();
+                        response.close();
                         try {
                             //clear msgs
                             if(chatArrayAdapter.getCount()>1) {
@@ -175,11 +176,6 @@ public class ChatActivity extends Activity {
                             }
                             JSONObject jsonObj = new JSONObject(jsonData);
                             jsonArr = jsonObj.getJSONArray("messages");
-
-                            //for(int i= 0;i<jsonArr.length();i++) {
-                                //JSONObject object = jsonArr.getJSONObject(i);
-                                //Log.v("get string : ",object.getString("MentorId").toString());
-                                //mMessage=object.getString("Message").toString();
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run()  {
