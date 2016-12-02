@@ -152,10 +152,10 @@ public class ChatActivity extends Activity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-/*        new Timer().scheduleAtFixedRate(new TimerTask() {
+        new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {getChat();}
-        }, 0, 2000);*/
+        }, 0, 2000);
         getChat();
     }
 
@@ -208,8 +208,9 @@ public class ChatActivity extends Activity {
                                         public void run()  {
                                             //clear msgs
                                             if(chatArrayAdapter.getCount()>1) {
-                                                chatArrayAdapter.clear();
-                                                listView.deferNotifyDataSetChanged();
+                                                //chatArrayAdapter.clear();
+                                                //listView.deferNotifyDataSetChanged();
+                                                listView.setAdapter(null);
                                             }
                                             for(int i=0;i<jsonArr.length();i++) {
                                                 try {
