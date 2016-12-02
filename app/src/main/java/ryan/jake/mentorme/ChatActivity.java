@@ -33,6 +33,7 @@ package ryan.jake.mentorme;
 
         import okhttp3.Call;
         import okhttp3.Callback;
+        import okhttp3.MediaType;
         import okhttp3.OkHttpClient;
         import okhttp3.Request;
         import okhttp3.RequestBody;
@@ -41,10 +42,12 @@ package ryan.jake.mentorme;
 
 public class ChatActivity extends Activity {
     private static final String TAG = "ChatActivity";
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
 
     public String requestid    = "";
     public String userid       = "";
-    public String receipientid = "";
+    public String recipientid = "";
     public String usertype     = "";
 
     private ChatArrayAdapter chatArrayAdapter;
@@ -56,6 +59,8 @@ public class ChatActivity extends Activity {
     private String mMessage;
     private JSONObject mainJSONObject;
     private JSONArray jsonArr;
+    private JSONObject jsonPostReq = new JSONObject();
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -75,7 +80,7 @@ public class ChatActivity extends Activity {
             //values that must be passed to activity from intent from request screen
             requestid    = extras.getString("requestid");
             userid       = extras.getString("userid");
-            receipientid = extras.getString("recipientid");
+            recipientid = extras.getString("recipientid");
             usertype     = extras.getString("usertype");
         }
 
@@ -107,6 +112,16 @@ public class ChatActivity extends Activity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                try {
+                    jsonPostReq.put("requestid",requestid);
+                    jsonPostReq.put("userid",userid);
+                    jsonPostReq.put("recipientid",recipientid);
+                    jsonPostReq.put("usertype",usertype);
+                    jsonPostReq.put("message", mMessage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 sendChatMessage();
             }
         });
@@ -210,7 +225,9 @@ public class ChatActivity extends Activity {
 
     }
 
-/*    private void postRequest(String json){
+    private void postRequest(String json){
+
+
 
         OkHttpClient client = new OkHttpClient();
 
@@ -240,7 +257,7 @@ public class ChatActivity extends Activity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                acceptLogin(mUsername);
+                                getChat();
                             }
                         });
 
@@ -250,7 +267,7 @@ public class ChatActivity extends Activity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                mError.setVisibility(View.VISIBLE);
+                               // mError.setVisibility(View.VISIBLE);
                             }
                         });
 
@@ -262,7 +279,7 @@ public class ChatActivity extends Activity {
             }
         });
 
-    }*/
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
