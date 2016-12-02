@@ -69,6 +69,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ryan.jake.mentorme.SearchActivity" />
         </activity>
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

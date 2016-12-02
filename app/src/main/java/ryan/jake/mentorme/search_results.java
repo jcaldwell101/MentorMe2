@@ -6,14 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,6 +36,7 @@ public class search_results extends AppCompatActivity {
     private JSONArray jsonArr;
 
     private ListView mNames;
+    List<String> listContents;
 
 
     @Override
@@ -42,9 +49,20 @@ public class search_results extends AppCompatActivity {
 
         mNames= (ListView)findViewById(R.id.searchResultList);
 
+
         Log.v(TAG, "searchcheck");
 
+
         getNames();
+
+        mNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                String text = listContents.get(position);
+                Log.v(TAG,text);
+
+
+            }
+        });
 
 
 
@@ -79,14 +97,31 @@ public class search_results extends AppCompatActivity {
                         jsonObj = new JSONObject(jsonData);
                         jsonArr = jsonObj.getJSONArray("username");
 
+                        Log.v(TAG, jsonArr.toString());
+
 
 
                         response.close();
 
-                        mHandler.post(new Runnable() {
+                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 Log.v(TAG, "check");
+                                listContents = new ArrayList<String>(jsonArr.length());
+
+                                for (int i = 0; i < jsonArr.length(); i++) {
+                                    try {
+
+
+                                        listContents.add(jsonArr.getJSONObject(i).get("UserId").toString());
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                ArrayAdapter adapter = new  ArrayAdapter<String>(search_results.this, android.R.layout.simple_list_item_1, listContents);
+                                mNames.setAdapter(adapter);
+
 
                             }
                         });
@@ -95,6 +130,7 @@ public class search_results extends AppCompatActivity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
+
 
                             }
                         });
