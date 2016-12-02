@@ -1,6 +1,7 @@
 package ryan.jake.mentorme;
 
         import android.app.Activity;
+        import android.bluetooth.BluetoothClass;
         import android.content.Context;
         import android.database.DataSetObserver;
         import android.net.Uri;
@@ -28,6 +29,7 @@ package ryan.jake.mentorme;
         import org.json.JSONObject;
 
         import java.io.IOException;
+        import java.util.ArrayList;
 
         import okhttp3.Call;
         import okhttp3.Callback;
@@ -39,7 +41,10 @@ package ryan.jake.mentorme;
 public class ChatActivity extends Activity {
     private static final String TAG = "ChatActivity";
 
-    public String requestid = "";
+    public String requestid    = "";
+    public String userid       = "";
+    public String receipientid = "";
+    public String usertype     = "";
 
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
@@ -47,6 +52,9 @@ public class ChatActivity extends Activity {
     private FloatingActionButton buttonSend;
     private boolean alignRight = true;
     Handler mHandler;
+    private String mMessage;
+    private JSONObject mainJSONObject;
+    private JSONArray jsonArr;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -63,15 +71,19 @@ public class ChatActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras!=null) {
-            requestid = extras.getString("requestid");
+            //values that must be passed to activity from intent from request screen
+            requestid    = extras.getString("requestid");
+            userid       = extras.getString("userid");
+            receipientid = extras.getString("recipientid");
+            usertype     = extras.getString("usertype");
         }
 
         //populate chat
-        getChat();
+
 
         /*//Toast start
         Context context = getApplicationContext();
-        CharSequence text = "requestid: " + requestid;
+        CharSequence text = "requestid: " + requestid + "userid: " + userid;
         int dur = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context,text,dur);
         toast.show();
@@ -112,25 +124,33 @@ public class ChatActivity extends Activity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        getChat();
     }
 
     private boolean sendChatMessage() {
-        if(!chatText.getText().toString().matches("")) {
+        /*if(!chatText.getText().toString().matches("")) {
             chatArrayAdapter.add(new ChatMessage(alignRight, chatText.getText().toString()));
             chatText.setText("");
             return true;
         }
-        //side = !side;
+        //side = !side;*/
+
+
+
         return false;
     }
 
+    private void sendMsgCallback(Boolean boolRight, String msg) {
+        chatArrayAdapter.add(new ChatMessage(boolRight, msg));
+    }
 
     private void getChat(){
 
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/getChat?request="+this.requestid)
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/getChat?requestid="+requestid.toString())
                 .build();
 
 
@@ -145,25 +165,45 @@ public class ChatActivity extends Activity {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     if (response.isSuccessful()){
-                        Log.v(TAG, response.body().string());
-                        String jsonData = response.body().string().toString();
+                        //Log.v(TAG, response.body().string());
+                        String jsonData = response.body().string();
                         try {
-                            JSONObject jsonObj = new JSONObject(jsonData);
-                            JSONArray jsonArr = jsonObj.getJSONArray("messages");
-
-                            for(int i= 0;i<jsonArr.length();i++) {
-                                JSONObject object = jsonArr.getJSONObject(i);
+                            //clear msgs
+                            if(chatArrayAdapter.getCount()>1) {
+                                chatArrayAdapter.clear();
+                                listView.deferNotifyDataSetChanged();
                             }
-                            Log.v("JSON DATA: ", jsonArr.toString());
+                            JSONObject jsonObj = new JSONObject(jsonData);
+                            jsonArr = jsonObj.getJSONArray("messages");
+
+                            //for(int i= 0;i<jsonArr.length();i++) {
+                                //JSONObject object = jsonArr.getJSONObject(i);
+                                //Log.v("get string : ",object.getString("MentorId").toString());
+                                //mMessage=object.getString("Message").toString();
+                                    mHandler.post(new Runnable() {
+                                        @Override
+                                        public void run()  {
+                                            for(int i=0;i<jsonArr.length();i++) {
+                                                try {
+                                                    mainJSONObject = jsonArr.getJSONObject(i);
+                                                    if(mainJSONObject.getString("SenderId").toString().matches(userid)) {
+                                                        sendMsgCallback(alignRight,mainJSONObject.getString("Message"));
+                                                    } else {
+                                                        sendMsgCallback(false,mainJSONObject.getString("Message"));
+                                                    }
+                                                    } catch (JSONException e) {e.printStackTrace();}
+
+                                            }
+                                        }
+                                    });
+
+
+                            //}
+                            //Log.v("JSON DATA: ", jsonArr.toString());
                         } catch (JSONException e) {
                             Log.v(TAG, e.toString());
                         }
-
-
-                    }else{
-
-
-                    }
+                    }else{ }
                 } catch (IOException e) {
                     Log.e(TAG,"Exception Caught",e);
                 }
@@ -172,8 +212,6 @@ public class ChatActivity extends Activity {
 
 
     }
-
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
