@@ -81,7 +81,7 @@ public class loginActivity extends AppCompatActivity {
     }
 
     private void goToChat() {
-        Intent intent = new Intent(this, ResultsActivity.class);
+        Intent intent = new Intent(this, search_results.class);
         //pass requestId since it's a MUST!
         intent.putExtra("requestid","1");
         intent.putExtra("userid","2");

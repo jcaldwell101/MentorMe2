@@ -45,7 +45,6 @@
             android:label="@string/title_activity_chat"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Register2Activity" />
-        <activity android:name=".ResultsActivity" />
         <activity
             android:name=".AccountEditActivity"
             android:label="@string/title_activity_account_edit"
@@ -56,23 +55,19 @@
                 android:value="ryan.jake.mentorme.Main2Activity" />
         </activity>
         <activity android:name=".SearchActivity">
-        <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value="ryan.jake.mentorme.Main2Activity"  />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ryan.jake.mentorme.Main2Activity" />
         </activity>
-
-        <activity android:name=".search_results">  <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="ryan.jake.mentorme.Main2Activity"  />
+        <activity android:name=".search_results">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ryan.jake.mentorme.Main2Activity" />
         </activity>
-
         <activity android:name=".MessageActivity">
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="ryan.jake.mentorme.SearchActivity" />
-
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ryan.jake.mentorme.SearchActivity" />
         </activity>
     </application>
 

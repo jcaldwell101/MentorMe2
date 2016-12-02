@@ -39,8 +39,7 @@ import okhttp3.Response;
 
 public class Register2Activity extends AppCompatActivity {
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
 
     public static final String TAG = RegisterActivity.class.getSimpleName();
