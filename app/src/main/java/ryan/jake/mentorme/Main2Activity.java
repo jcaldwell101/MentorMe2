@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ import okhttp3.Response;
 
 import static android.R.attr.bitmap;
 
-public class Main2Activity extends ListActivity {
+public class Main2Activity extends AppCompatActivity {
 
     String mUser;
     private Handler mHandler;
@@ -36,6 +37,7 @@ public class Main2Activity extends ListActivity {
 
     private ImageView mProfilePic;
     private TextView mProfileName;
+    private Button mSearch;
 
 
     @Override
@@ -45,9 +47,12 @@ public class Main2Activity extends ListActivity {
 
         Intent intent = getIntent();
         mUser  = intent.getStringExtra("username");
+        mSearch = (Button)findViewById(R.id.searchbutton);
 
+        if (mUser.equalsIgnoreCase("Mentee2")){
+            mSearch.setText("Search");
 
-
+        }
 
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -58,6 +63,22 @@ public class Main2Activity extends ListActivity {
 
 
         getImage();
+
+
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goSearch();
+            }
+        });
+
+    }
+
+    private void goSearch(){
+        Intent intent = new Intent(this, search_results.class);
+        intent.putExtra("username", mUser);
+        startActivity(intent);
+
 
     }
 

@@ -34,6 +34,7 @@ public class search_results extends AppCompatActivity {
     Handler mHandler;
     private JSONObject mainJSONObject;
     private JSONArray jsonArr;
+    private String mUser;
 
     private ListView mNames;
     List<String> listContents;
@@ -44,27 +45,47 @@ public class search_results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
+        Intent intent = getIntent();
+        mUser  = intent.getStringExtra("username");
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        mNames= (ListView)findViewById(R.id.searchResultList);
+        mNames= (ListView)findViewById(R.id.listSearchResults);
+
+
 
 
         Log.v(TAG, "searchcheck");
 
 
-        getNames();
+        //getNames();
 
         mNames.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                String text = listContents.get(position);
-                Log.v(TAG,text);
+                /*String text = listContents.get(position);
+                Log.v(TAG,text);*/
+
 
 
             }
         });
 
+        listContents = new ArrayList<String>(5);
 
+       if(mUser.equalsIgnoreCase("Mentee2")) {
+
+
+           listContents.add("Jake");
+           listContents.add("Mentor");
+           listContents.add("Josh");
+           listContents.add("Billy");
+       }
+        else{
+           listContents.add("Mentee");
+       }
+
+        ArrayAdapter adapter = new  ArrayAdapter<String>(search_results.this, android.R.layout.simple_list_item_1, listContents);
+        mNames.setAdapter(adapter);
 
     }
 

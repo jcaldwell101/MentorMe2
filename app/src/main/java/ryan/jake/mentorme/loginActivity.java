@@ -51,7 +51,7 @@ public class loginActivity extends AppCompatActivity {
 
         mLogin  = (Button)findViewById(R.id.Login);
         mCreate = (Button)findViewById(R.id.cAccount);
-        mResult   = (Button)findViewById(R.id.result);
+
 
         mError = (TextView)findViewById(R.id.error2) ;
         mHandler = new Handler(Looper.getMainLooper());
@@ -71,12 +71,12 @@ public class loginActivity extends AppCompatActivity {
                 getRequest(mName.getText().toString(),mPassword.getText().toString());
             }
         });
-        mResult.setOnClickListener(new View.OnClickListener() {
+       /* mResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToChat();
             }
-        });
+        });*/
 
     }
 

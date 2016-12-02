@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +33,9 @@ public class ProfileActivity extends AppCompatActivity {
     Bitmap mbitmap;
     private JSONArray jsonArr;
 
+    private ImageView mOProfilePic;
+    private TextView mOProfileName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +45,20 @@ public class ProfileActivity extends AppCompatActivity {
         mUser  = intent.getStringExtra("username");
         mOUser = intent.getStringExtra("ousername");
 
+        mOProfilePic = (ImageView)findViewById(R.id.oProfilePicture);
+        mOProfileName = (TextView)findViewById(R.id.oProfileNameText);
+        mOProfileName.setText(mOUser);
+
+        getProfile();
+
+
     }
 
     private void getProfile(){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/profile?name="+mOUser)
+                .url("http://ec2-54-218-89-13.us-west-2.compute.amazonaws.com/getprofile?name="+mOUser)
                 .build();
 
         Call call = client.newCall(request);
@@ -77,13 +89,14 @@ public class ProfileActivity extends AppCompatActivity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Log.v(TAG,"check2");
+                                Log.v(TAG,jsonArr.toString());
+                               // mOProfilePic.setImageBitmap();
 
                             }
                         });
 
                     }else{
-
+                        Log.v(TAG, "error");
 
                     }
                 } catch (IOException e) {
