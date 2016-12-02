@@ -1,5 +1,8 @@
 package ryan.jake.mentorme;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Object;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,7 +43,7 @@ public class search_results extends AppCompatActivity {
 
     private ListView mNames;
     List<String> listContents;
-
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +69,74 @@ public class search_results extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 /*String text = listContents.get(position);
                 Log.v(TAG,text);*/
+                if(!mUser.equalsIgnoreCase("Mentee")){
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
 
 
+                // set title
+                alertDialogBuilder.setTitle("Request Approval");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Click yes to approve!")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                goToChat(false);
+                            }
+                        })
+                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            } else {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+
+
+                    // set title
+                    alertDialogBuilder.setTitle("Request");
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Are you sure you want to request this user?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    goToChat(true);
+                                }
+                            })
+                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                }
 
             }
         });
 
         listContents = new ArrayList<String>(5);
 
-       if(mUser.equalsIgnoreCase("Mentee2")) {
+       if(mUser.equalsIgnoreCase("Mentee")) {
 
 
            listContents.add("Jake");
@@ -89,6 +153,26 @@ public class search_results extends AppCompatActivity {
 
     }
 
+    private void goToChat(Boolean isMentee){
+        if(isMentee){
+            Intent intent = new Intent(this, ChatActivity.class);
+            //pass requestId since it's a MUST!
+            intent.putExtra("requestid","17");
+            intent.putExtra("userid","Mentee");
+            intent.putExtra("recipientid", "Mentor");
+            intent.putExtra("usertype", "2");
+            startActivity(intent);
+        } else
+        {
+            Intent intent = new Intent(this, ChatActivity.class);
+            //pass requestId since it's a MUST!
+            intent.putExtra("requestid","17");
+            intent.putExtra("userid","Mentor");
+            intent.putExtra("recipientid", "Mentee");
+            intent.putExtra("usertype", "1");
+            startActivity(intent);
+        }
+    }
 
     private void getNames(){
 
