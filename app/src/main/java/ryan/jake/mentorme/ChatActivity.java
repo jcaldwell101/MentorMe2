@@ -155,8 +155,8 @@ public class ChatActivity extends Activity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {getChat();}
-        }, 0, 2000);
-        getChat();
+        }, 0, 3000);
+        //getChat();
     }
 
     private boolean sendChatMessage() {
@@ -210,7 +210,14 @@ public class ChatActivity extends Activity {
                                             if(chatArrayAdapter.getCount()>1) {
                                                 //chatArrayAdapter.clear();
                                                 //listView.deferNotifyDataSetChanged();
+                                                chatArrayAdapter.clear();
+                                                //chatArrayAdapter.
+                                                mainJSONObject = null;
+                                                chatArrayAdapter.notifyDataSetChanged();
                                                 listView.setAdapter(null);
+
+                                                listView.setAdapter(chatArrayAdapter);
+
                                             }
                                             for(int i=0;i<jsonArr.length();i++) {
                                                 try {
