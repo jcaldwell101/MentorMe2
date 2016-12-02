@@ -158,8 +158,8 @@ public class search_results extends AppCompatActivity {
             Intent intent = new Intent(this, ChatActivity.class);
             //pass requestId since it's a MUST!
             intent.putExtra("requestid","17");
-            intent.putExtra("userid","Mentee");
-            intent.putExtra("recipientid", "Mentor");
+            intent.putExtra("userid","Mentee2");
+            intent.putExtra("recipientid", "jacey");
             intent.putExtra("usertype", "2");
             startActivity(intent);
         } else
@@ -167,8 +167,8 @@ public class search_results extends AppCompatActivity {
             Intent intent = new Intent(this, ChatActivity.class);
             //pass requestId since it's a MUST!
             intent.putExtra("requestid","17");
-            intent.putExtra("userid","Mentor");
-            intent.putExtra("recipientid", "Mentee");
+            intent.putExtra("userid","jacey");
+            intent.putExtra("recipientid", "Mentee2");
             intent.putExtra("usertype", "1");
             startActivity(intent);
         }
