@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class search_results extends AppCompatActivity {
     private JSONObject mainJSONObject;
     private JSONArray jsonArr;
 
+    private ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, R.layout.activity_search_results);
     private ListView mNames;
 
 
@@ -40,13 +42,12 @@ public class search_results extends AppCompatActivity {
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        mNames= (ListView)findViewById(R.id.searchResultList);
+        mNames= (ListView)findViewById(R.id.listSearchResults);
+        mNames.setAdapter(listAdapter);
 
         Log.v(TAG, "searchcheck");
 
         getNames();
-
-
 
     }
 
@@ -73,13 +74,11 @@ public class search_results extends AppCompatActivity {
 
                         //response here
 
-                        String jsonData = response.body().string();
+                        final String jsonData = response.body().string();
                         JSONObject jsonObj = null;
 
                         jsonObj = new JSONObject(jsonData);
                         jsonArr = jsonObj.getJSONArray("username");
-
-
 
                         response.close();
 
@@ -88,6 +87,15 @@ public class search_results extends AppCompatActivity {
                             public void run() {
                                 Log.v(TAG, "check");
 
+                                for(int i=0;i<jsonArr.length();i++) {
+                                    try {
+                                        mainJSONObject = jsonArr.getJSONObject(i);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
                             }
                         });
 
