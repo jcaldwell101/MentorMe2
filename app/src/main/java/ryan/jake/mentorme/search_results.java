@@ -69,7 +69,7 @@ public class search_results extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 /*String text = listContents.get(position);
                 Log.v(TAG,text);*/
-                if(!mUser.equalsIgnoreCase("Mentee")){
+                if(!mUser.equalsIgnoreCase("Mentee2")){
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             context);
 
@@ -136,7 +136,7 @@ public class search_results extends AppCompatActivity {
 
         listContents = new ArrayList<String>(5);
 
-       if(mUser.equalsIgnoreCase("Mentee")) {
+       if(mUser.equalsIgnoreCase("Mentee2")) {
 
 
            listContents.add("Jake");
