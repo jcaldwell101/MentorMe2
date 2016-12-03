@@ -175,6 +175,8 @@ public class Register2Activity extends AppCompatActivity {
     private void acceptLogin(String username) {
         Intent intent = new Intent(this, Main2Activity.class);
         intent.putExtra("username",username);
+        intent.putExtra("usertype", mMentee);
+
         startActivity(intent);
     }
 

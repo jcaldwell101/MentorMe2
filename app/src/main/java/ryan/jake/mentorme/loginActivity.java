@@ -33,6 +33,9 @@ public class loginActivity extends AppCompatActivity {
     private Button mResult;
     private TextView mError;
 
+    private String mType;
+    private Boolean isMentee =false;
+
     Handler mHandler;
 
 
@@ -80,21 +83,16 @@ public class loginActivity extends AppCompatActivity {
 
     }
 
-    private void goToChat() {
-        Intent intent = new Intent(this, search_results.class);
-        //pass requestId since it's a MUST!
-        intent.putExtra("requestid","1");
-        intent.putExtra("userid","2");
-        startActivity(intent);
-    }
+
     private void accountCreate() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
-    private void acceptLogin(String username) {
+    private void acceptLogin(String username, Boolean isMentee) {
         Intent intent = new Intent(this, Main2Activity.class);
         intent.putExtra("username",username);
+        intent.putExtra("usertype",isMentee);
         startActivity(intent);
     }
 
@@ -117,13 +115,22 @@ public class loginActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
 
                     if (response.isSuccessful()){
+                        mType = response.body().string();
+
+                        Log.v(TAG, mType);
+
+                        if (mType.equalsIgnoreCase("2")){
+                            isMentee = true;
+                        }
+
+
                         response.close();
 
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 Log.v(TAG,mName.getText().toString() );
-                                acceptLogin(mName.getText().toString());
+                                acceptLogin(mName.getText().toString(),isMentee);
                             }
                         });
 

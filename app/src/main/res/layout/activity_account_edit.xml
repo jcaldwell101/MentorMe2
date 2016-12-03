@@ -23,44 +23,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/edit_name"
             android:ems="10"
-            android:id="@+id/edit_name_box" />
+            android:id="@+id/edit_name_box"
+            android:hint="Enter new name" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/edit_password_box"
+            android:hint="Enter new password" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/edit_password"
             android:ems="10"
-            android:id="@+id/edit_password_box" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/edit_location"
-            android:ems="10"
-            android:id="@+id/edit_location_box" />
+            android:id="@+id/edit_location_box"
+            android:hint="Enter new city" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="33dp">
 
-            <CheckBox
-                android:text="@string/is_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/male_box"
-                android:layout_weight="1" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:text="@string/is_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/female_box"
-                android:layout_weight="1" />
+                <RadioButton
+                    android:text="Male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editmaleradioButton"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:text="Female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editfemaleradioButton"
+                    android:layout_weight="1" />
+            </RadioGroup>
         </LinearLayout>
 
         <TextView
@@ -100,6 +106,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/save_button" />
+
+
     </LinearLayout>
 </RelativeLayout>
 

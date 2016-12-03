@@ -42,15 +42,6 @@
         android:layout_below="@+id/profileNameText"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="Requests"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp"
-        android:id="@+id/searchbutton" />
-
     <TextView
         android:text="Relationships"
         android:layout_width="wrap_content"
@@ -62,6 +53,26 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="9dp"
         android:layout_marginTop="81dp" />
+
+    <Button
+        android:text="Requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:id="@+id/searchbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/profilePicture"
+        android:layout_marginStart="41dp" />
+
+    <Button
+        android:text="Edit Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:id="@+id/editbutton"
+        android:layout_alignBaseline="@+id/searchbutton"
+        android:layout_alignBottom="@+id/searchbutton"
+        android:layout_alignEnd="@+id/profilePicture" />
 
 
 </RelativeLayout>

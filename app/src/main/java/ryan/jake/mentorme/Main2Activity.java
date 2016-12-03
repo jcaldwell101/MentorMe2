@@ -28,7 +28,7 @@ import static android.R.attr.bitmap;
 
 public class Main2Activity extends AppCompatActivity {
 
-    String mUser;
+
     private Handler mHandler;
     public static final String TAG = Main2Activity.class.getSimpleName();
     Bitmap mbitmap;
@@ -38,6 +38,10 @@ public class Main2Activity extends AppCompatActivity {
     private ImageView mProfilePic;
     private TextView mProfileName;
     private Button mSearch;
+    private Boolean isMentee;
+    private String mUser;
+    private Button mEdit;
+
 
 
     @Override
@@ -47,11 +51,32 @@ public class Main2Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mUser  = intent.getStringExtra("username");
+        isMentee = intent.getBooleanExtra("usertype",true);
+
         mSearch = (Button)findViewById(R.id.searchbutton);
+        mEdit =(Button)findViewById(R.id.editbutton);
 
-        if (mUser.equalsIgnoreCase("Mentee")){
+
+
+        if (isMentee){
             mSearch.setText("Search");
+            mSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goSearch();
+                }
+            });
+            Log.v(TAG,"isMentee");
 
+
+        }
+        else{
+            mSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goResults();
+                }
+            });
         }
 
         mHandler = new Handler(Looper.getMainLooper());
@@ -60,27 +85,46 @@ public class Main2Activity extends AppCompatActivity {
         mProfileName = (TextView)findViewById(R.id.profileNameText);
         mProfileName.setText(mUser);
 
-
+        mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goEdit();
+            }
+        });
 
         getImage();
 
 
-        mSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goSearch();
-            }
-        });
+
 
     }
 
-    private void goSearch(){
-        Intent intent = new Intent(this, search_results.class);
+    private void goEdit(){
+        Intent intent = new Intent(this, AccountEditActivity.class);
         intent.putExtra("username", mUser);
         startActivity(intent);
 
 
     }
+
+    private void goSearch(){
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("username", mUser);
+        intent.putExtra("usertype",isMentee);
+        startActivity(intent);
+
+
+    }
+    private void goResults(){
+        Intent intent = new Intent(this,search_results.class);
+        intent.putExtra("username", mUser);
+        intent.putExtra("usertype",isMentee);
+        startActivity(intent);
+
+
+    }
+
+
 
 
     private void getProfile(){
@@ -101,12 +145,11 @@ public class Main2Activity extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     if (response.isSuccessful()){
-                        //Log.v(TAG, Integer.toString( response.body().string().length()));
 
                         String respon = response.body().string();
 
                         mbitmap = StringToBitMap(respon);
-                        //mProfilePic.setImageBitmap(mbitmap);
+
 
                         Log.v(TAG,"check1");
 

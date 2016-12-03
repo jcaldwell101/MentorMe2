@@ -50,26 +50,24 @@
             android:label="@string/title_activity_account_edit"
             android:parentActivityName=".Main2Activity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ryan.jake.mentorme.Main2Activity" />
+
         </activity>
-        <activity android:name=".SearchActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ryan.jake.mentorme.Main2Activity" />
-        </activity>
+        <activity android:name=".SearchActivity"/>
+
+
         <activity android:name=".search_results">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ryan.jake.mentorme.Main2Activity" />
+
         </activity>
         <activity android:name=".MessageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ryan.jake.mentorme.SearchActivity" />
         </activity>
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

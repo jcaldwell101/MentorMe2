@@ -10,54 +10,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ryan.jake.mentorme.SearchActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="55dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true" >
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Select one or more of the following:"
-            android:ems="10"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="14dp"
-            android:id="@+id/textView" />
-
-        <CheckBox
-            android:text="Diet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBoxDiet" />
-
-        <CheckBox
-            android:text="Religion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBoxReligion" />
-
-        <CheckBox
-            android:text="Housing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBoxHousing" />
-
-        <CheckBox
+        <RadioButton
             android:text="Sports"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBoxSports" />
+            android:id="@+id/sportsradioButton"
+            android:layout_weight="1" />
 
-        <Button
-            android:text="Search"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:text="Religion"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonS" />
-    </LinearLayout>
+            android:id="@+id/religionradioButton"
+            android:layout_weight="1" />
 
+        <RadioButton
+            android:text="Diertary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dietaryradioButton3"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Housing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/housingradioButton"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+    <TextView
+        android:text="Select One of the Following :"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:id="@+id/textView9"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <Button
+        android:text="Search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mentorsearchbutton"
+        android:layout_marginBottom="11dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
